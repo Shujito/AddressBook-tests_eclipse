@@ -8,7 +8,7 @@ import android.util.Log;
 import com.robotium.solo.Solo;
 
 /**
- * Functional tests for the {@link AddressBookActivity}
+ * Functional tests for the {@link AddressBookActivity}.
  * @author shujito
  */
 public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2<AddressBookActivity>
