@@ -38,7 +38,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
 		// hit new
-		this.solo.clickOnMenuItem("New");
+		this.solo.clickOnText("New");
 		// wait for screen
 		assertTrue(this.solo.waitForText("Create Contact"));
 		assertTrue(this.solo.waitForText("Done"));
@@ -54,7 +54,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.clickOnView(this.solo.getEditText("Notes"));
 		this.solo.enterText(this.solo.getEditText("Notes"), "Jackdaws love my big sphinx of quartz.");
 		// save now
-		this.solo.clickOnMenuItem("Done");
+		this.solo.clickOnText("Done");
 		// wait for activity
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -72,7 +72,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
 		// hit new
-		this.solo.clickOnMenuItem("New");
+		this.solo.clickOnText("New");
 		// wait for screen
 		assertTrue(this.solo.waitForText("Create Contact"));
 		assertTrue(this.solo.waitForText("Done"));
@@ -83,7 +83,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		assertTrue(this.solo.waitForText("Phone"));
 		assertTrue(this.solo.waitForText("Notes"));
 		// hit done
-		this.solo.clickOnMenuItem("Done");
+		this.solo.clickOnText("Done");
 		// see messages
 		assertTrue(this.solo.waitForText("Required field"));
 		// go back to main
@@ -130,7 +130,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.clickOnView(this.solo.getEditText("Phone"));
 		this.solo.enterText(this.solo.getEditText("Phone"), "88888888");
 		// save now
-		this.solo.clickOnMenuItem("Done");
+		this.solo.clickOnText("Done");
 		// wait for activity
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
