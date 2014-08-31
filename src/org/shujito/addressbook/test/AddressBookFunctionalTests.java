@@ -21,7 +21,9 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		super(AddressBookActivity.class);
 	}
 	
+	/* life fiber */
 	@Override
+	/* kamui junketsu */
 	protected void setUp() throws Exception
 	{
 		super.setUp();
@@ -130,16 +132,26 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		// wait for screen
 		assertTrue(this.solo.waitForText("Edit Contact"));
 		assertTrue(this.solo.waitForText("Done"));
-		// edit some fields
-		this.solo.clickOnView(this.solo.getEditText("Name"));
+		// wait for matching data
+		assertTrue(this.solo.waitForText("Alberto"));
+		assertTrue(this.solo.waitForText("Ramos"));
+		assertTrue(this.solo.waitForText("55555555"));
+		// the 'Name' field occupies the 'Alberto' string at this time
+		this.solo.clickOnView(this.solo.getEditText("Alberto"));
+		this.solo.clearEditText(this.solo.getEditText("Alberto"));
 		this.solo.enterText(this.solo.getEditText("Name"), "Nurit");
-		this.solo.clickOnView(this.solo.getEditText("Phone"));
+		// and the 'Phone' field occupies the '55555555' string at this time
+		this.solo.clickOnView(this.solo.getEditText("55555555"));
+		this.solo.clearEditText(this.solo.getEditText("55555555"));
 		this.solo.enterText(this.solo.getEditText("Phone"), "88881234");
 		// save now
 		this.solo.clickOnText("Done");
 		// wait for activity
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
+		// expect for these two not to exist
+		assertFalse(this.solo.waitForText("Alberto"));
+		assertFalse(this.solo.waitForText("55555555"));
 		// wait for values
 		assertTrue(this.solo.waitForText("Nurit"));
 		assertTrue(this.solo.waitForText("88881234"));
@@ -157,7 +169,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		// wait for dialog
 		assertTrue(this.solo.waitForDialogToOpen());
 		// read the text
-		assertTrue(this.solo.waitForText("Are you sure you want to delete this contact?"));
+		assertTrue(this.solo.waitForText("Are you sure you want to delete the selected contacts?"));
 		// delete it please
 		this.solo.clickOnText("Yes");
 		assertTrue(this.solo.waitForDialogToClose());
