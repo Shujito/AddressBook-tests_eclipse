@@ -150,8 +150,8 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
 		// expect for these two not to exist
-		assertFalse(this.solo.waitForText("Alberto"));
-		assertFalse(this.solo.waitForText("55555555"));
+		assertFalse("I still can see the same name", this.solo.waitForText("Alberto"));
+		assertFalse("I still can see the same phone", this.solo.waitForText("55555555"));
 		// wait for values
 		assertTrue(this.solo.waitForText("Nurit"));
 		assertTrue(this.solo.waitForText("88881234"));
@@ -171,7 +171,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		// read the text
 		assertTrue(this.solo.waitForText("Are you sure you want to delete the selected contacts?"));
 		// delete it please
-		this.solo.clickOnText("Yes");
+		this.solo.clickOnText("OK");
 		assertTrue(this.solo.waitForDialogToClose());
 		// don't see the value
 		assertFalse("I still can see the same name", this.solo.waitForText("Nurit"));
