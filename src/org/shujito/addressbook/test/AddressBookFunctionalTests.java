@@ -35,7 +35,10 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo = new Solo(this.getInstrumentation(), config, this.getActivity());
 	}
 	
-	public void test00CreateContact()
+	/**
+	 * Tests creating a contact
+	 */
+	public void test000CreateContact()
 	{
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -56,7 +59,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.clickOnView(this.solo.getEditText("Notes"));
 		this.solo.enterText(this.solo.getEditText("Notes"), "Jackdaws love my big sphinx of quartz.");
 		// save now
-		this.solo.clickOnText("Done");
+		this.solo.clickOnMenuItem("Done");
 		// wait for activity
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -68,7 +71,10 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.goBack();
 	}
 	
-	public void test01RequiredFields()
+	/**
+	 * Tests required fields
+	 */
+	public void test001RequiredFields()
 	{
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -84,7 +90,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		assertTrue(this.solo.waitForText("Phone"));
 		assertTrue(this.solo.waitForText("Notes"));
 		// hit done
-		this.solo.clickOnText("Done");
+		this.solo.clickOnMenuItem("Done");
 		// see messages
 		assertTrue(this.solo.waitForText("Required field"));
 		// go back to main
@@ -96,7 +102,10 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.goBack();
 	}
 	
-	public void test02ViewContact()
+	/**
+	 * Tests viewing a previously added contact
+	 */
+	public void test002ViewContact()
 	{
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -122,13 +131,16 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.goBack();
 	}
 	
-	public void test03EditContact()
+	/**
+	 * Tests editing a previously added contact
+	 */
+	public void test003EditContact()
 	{
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
 		// hold and edit
 		this.solo.clickLongOnText("Alberto Ramos");
-		this.solo.clickOnText("Edit");
+		this.solo.clickOnMenuItem("Edit");
 		// wait for screen
 		assertTrue(this.solo.waitForText("Edit Contact"));
 		assertTrue(this.solo.waitForText("Done"));
@@ -145,7 +157,7 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.clearEditText(this.solo.getEditText("55555555"));
 		this.solo.enterText(this.solo.getEditText("Phone"), "88881234");
 		// save now
-		this.solo.clickOnText("Done");
+		this.solo.clickOnMenuItem("Done");
 		// wait for activity
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
@@ -159,13 +171,16 @@ public class AddressBookFunctionalTests extends ActivityInstrumentationTestCase2
 		this.solo.goBack();
 	}
 	
-	public void test04DeleteContact()
+	/**
+	 * Tests deleting a previously added contact
+	 */
+	public void test004DeleteContact()
 	{
 		assertTrue(this.solo.waitForText("Address Book"));
 		assertTrue(this.solo.waitForText("New"));
 		// hold and delete
 		this.solo.clickLongOnText("Nurit");
-		this.solo.clickOnText("Delete");
+		this.solo.clickOnMenuItem("Delete", true);
 		// wait for dialog
 		assertTrue(this.solo.waitForDialogToOpen());
 		// read the text
