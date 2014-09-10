@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.shujito.addressbook.model.Contact;
 
-import android.database.sqlite.SQLiteConstraintException;
 import android.test.ActivityTestCase;
 
 import com.activeandroid.Model;
@@ -43,13 +42,27 @@ public class TestContactModel extends ActivityTestCase
 		assertTrue(contact.save() != -1);
 	}
 	
+	public void testDelete()
+	{
+		Contact koa = new Contact();
+		koa.name = "Koakuma";
+		koa.phone = "5685868";
+		Long idKoa = koa.save();
+		assertTrue(idKoa != -1);
+		Contact deleteKoa = Model.load(Contact.class, idKoa);
+		deleteKoa.delete();
+		// shouldn't exist
+		Contact findKoa = Model.load(Contact.class, idKoa);
+		assertNull(findKoa);
+	}
+	
 	public void testUpdate()
 	{
 		// make new with required fields
 		Contact contact = new Contact();
 		contact.name = "Cirno";
 		contact.phone = "999999999";
-		// save
+		// save, keep id for future use
 		Long mId = contact.save();
 		// assure it is saved
 		assertTrue(mId != -1);
@@ -72,14 +85,11 @@ public class TestContactModel extends ActivityTestCase
 		edit2.name = null;
 		edit2.phone = null;
 		// assure it doesn't save
-		try
-		{
-			assertEquals(Long.valueOf(-1l), edit2.save());
-		}
-		catch (Exception ex)
-		{
-			assertTrue(ex instanceof SQLiteConstraintException);
-		}
+		Long idEdit2 = edit2.save();
+		assertEquals(mId, idEdit2);
+		Contact findEdit2 = Model.load(Contact.class, idEdit2);
+		assertEquals("Daiyousei", findEdit2.name);
+		assertEquals("7777777", findEdit2.phone);
 		// load again, last time I promise
 		Contact edit3 = Model.load(Contact.class, mId);
 		// assure it has the same values
