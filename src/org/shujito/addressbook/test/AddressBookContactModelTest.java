@@ -9,9 +9,9 @@ import android.test.ActivityTestCase;
 import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 
-public class TestContactModel extends ActivityTestCase
+public class AddressBookContactModelTest extends ActivityTestCase
 {
-	static final String TAG = TestContactModel.class.getSimpleName();
+	static final String TAG = AddressBookContactModelTest.class.getSimpleName();
 	
 	@Override
 	protected void setUp() throws Exception
