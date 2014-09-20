@@ -25,26 +25,26 @@ public class AddressBookServerTests extends InstrumentationTestCase
 	{
 		super.setUp();
 		this.mController = new AddressBookApiController(AddressBookApplication.getInstance());
-		Thread.sleep(1000);
+		Thread.sleep(250);
 	}
 	
 	public void testAsyncLoginMissingUsername()
 	{
-		Result result = this.mController.login(null, "only password", null);
+		Result result = this.mController.login("", "only password", null);
 		assertEquals(AddressBookApiController.STATUS_NO_USERNAME, result.status);
 		assertEquals("Username required", result.message);
 	}
 	
 	public void testAsyncLoginMissingPassword()
 	{
-		Result result = this.mController.login("only username", null, null);
+		Result result = this.mController.login("only username", "", null);
 		assertEquals(AddressBookApiController.STATUS_NO_PASSWORD, result.status);
 		assertEquals("Password required", result.message);
 	}
 	
 	public void testAsyncLoginRequiredFields()
 	{
-		Result result = this.mController.login(null, null, null);
+		Result result = this.mController.login("", "", null);
 		assertEquals(AddressBookApiController.STATUS_NO_USERNAME | AddressBookApiController.STATUS_NO_PASSWORD, result.status);
 		assertEquals("Username and password required", result.message);
 	}
@@ -100,7 +100,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 	{
 		try
 		{
-			this.mController.login(null, "only password");
+			this.mController.login("", "only password");
 			fail("The test should not reach this line");
 		}
 		catch (LoginException le)
@@ -114,7 +114,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 	{
 		try
 		{
-			this.mController.login("only username", null);
+			this.mController.login("only username", "");
 			fail("The test should not reach this line");
 		}
 		catch (LoginException le)
@@ -128,7 +128,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 	{
 		try
 		{
-			this.mController.login(null, null);
+			this.mController.login("", "");
 			fail("The test should not reach this line");
 		}
 		catch (LoginException le)
@@ -185,6 +185,21 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		List<Contact> contactsList = this.mController.getContacts(session);
 		assertNotNull(contactsList);
 		assertTrue(contactsList.size() > 0);
+	}
+	
+	public void testUploadEmptyContact()
+	{
+		fail();
+	}
+	
+	public void testUploadContactAllFieldsButRequired()
+	{
+		fail();
+	}
+	
+	public void testUploadContactRequiredFields()
+	{
+		fail();
 	}
 	
 	@Override
