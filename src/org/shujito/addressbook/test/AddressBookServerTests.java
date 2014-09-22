@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.shujito.addressbook.AddressBookApplication;
 import org.shujito.addressbook.controller.AddressBookApiController;
-import org.shujito.addressbook.controller.AddressBookApiController.LoginException;
-import org.shujito.addressbook.controller.AddressBookApiController.ServerException;
+import org.shujito.addressbook.controller.exception.LoginException;
+import org.shujito.addressbook.controller.exception.ServerException;
 import org.shujito.addressbook.model.Contact;
 import org.shujito.addressbook.model.Result;
 import org.shujito.addressbook.model.Session;
@@ -149,6 +149,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		{
 			assertNotNull(se);
 			assertEquals("bad credentials", se.getMessage());
+			assertEquals(401, se.getStatusCode());
 		}
 	}
 	
@@ -167,7 +168,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		assertNotNull(usersList);
 	}
 	
-	public void testListEmptyContacts()
+	public void testListContactsWithoutSession()
 	{
 		Session dummy = new Session();
 		List<Contact> contactsList = this.mController.getContacts(dummy);
@@ -175,7 +176,36 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		assertEquals(0, contactsList.size());
 	}
 	
-	public void testListContacts() throws Exception
+	public void testUploadEmptyContactWithoutSession()
+	{
+		Session dummy = new Session();
+		Contact emptyContact = new Contact();
+		try
+		{
+			this.mController.uploadContact(dummy, emptyContact);
+			fail("The test should not reach this line");
+		}
+		catch (ServerException ex)
+		{
+			assertNotNull(ex);
+			//assertEquals("Sign in first", ex.getMessage());
+			assertEquals(400, ex.getStatusCode());
+			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
+			assertEquals("is required", ex.getError(Contact.CONTACT_PHONE));
+		}
+	}
+	
+	public void testUploadContactAllFieldsButRequiredWithoutSession()
+	{
+		fail();
+	}
+	
+	public void testUploadContactRequiredFieldsWithoutSession()
+	{
+		fail();
+	}
+	
+	public void testListContactsWithSession() throws Exception
 	{
 		Session session = this.mController.login("shujito", "shujito");
 		assertNotNull(session);
@@ -187,17 +217,17 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		assertTrue(contactsList.size() > 0);
 	}
 	
-	public void testUploadEmptyContact()
+	public void testUploadEmptyContactWithSession()
 	{
 		fail();
 	}
 	
-	public void testUploadContactAllFieldsButRequired()
+	public void testUploadContactAllFieldsButRequiredWithSession()
 	{
 		fail();
 	}
 	
-	public void testUploadContactRequiredFields()
+	public void testUploadContactRequiredFieldsWithSession()
 	{
 		fail();
 	}
