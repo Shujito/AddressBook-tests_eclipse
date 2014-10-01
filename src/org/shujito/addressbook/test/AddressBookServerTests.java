@@ -188,6 +188,7 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		catch (ServerException ex)
 		{
 			assertNotNull(ex);
+			assertNull(ex.getMessage());
 			//assertEquals("Sign in first", ex.getMessage());
 			assertEquals(400, ex.getStatusCode());
 			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
