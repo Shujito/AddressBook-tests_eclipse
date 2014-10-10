@@ -189,7 +189,6 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		{
 			assertNotNull(ex);
 			assertNull(ex.getMessage());
-			//assertEquals("Sign in first", ex.getMessage());
 			assertEquals(400, ex.getStatusCode());
 			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
 			assertEquals("is required", ex.getError(Contact.CONTACT_PHONE));
@@ -198,12 +197,43 @@ public class AddressBookServerTests extends InstrumentationTestCase
 	
 	public void testUploadContactAllFieldsButRequiredWithoutSession()
 	{
-		fail();
+		Session dummy = new Session();
+		Contact contact = new Contact();
+		contact.lastname = "Kirisame";
+		contact.address = "Forest of Magic";
+		contact.notes = "Ordinary Magician";
+		try
+		{
+			this.mController.uploadContact(dummy, contact);
+			fail("The test should not reach this line");
+		}
+		catch (ServerException ex)
+		{
+			assertNotNull(ex);
+			assertNull(ex.getMessage());
+			assertEquals(400, ex.getStatusCode());
+			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
+			assertEquals("is required", ex.getError(Contact.CONTACT_PHONE));
+		}
 	}
 	
 	public void testUploadContactRequiredFieldsWithoutSession()
 	{
-		fail();
+		Session dummy = new Session();
+		Contact contact = new Contact();
+		contact.name = "Marisa";
+		contact.phone = "54747263";
+		try
+		{
+			this.mController.uploadContact(dummy, contact);
+			fail("The test should not reach this line");
+		}
+		catch (ServerException ex)
+		{
+			assertNotNull(ex);
+			assertEquals("Sign in first", ex.getMessage());
+			assertEquals(401, ex.getStatusCode());
+		}
 	}
 	
 	public void testListContactsWithSession() throws Exception
@@ -218,19 +248,70 @@ public class AddressBookServerTests extends InstrumentationTestCase
 		assertTrue(contactsList.size() > 0);
 	}
 	
-	public void testUploadEmptyContactWithSession()
+	public void testUploadEmptyContactWithSession() throws Exception
 	{
-		fail();
+		Session session = this.mController.login("shujito", "shujito");
+		assertNotNull(session);
+		assertNotNull(session.id);
+		assertNotNull(session.uid);
+		assertEquals("/users", session.path);
+		Contact emptyContact = new Contact();
+		try
+		{
+			this.mController.uploadContact(session, emptyContact);
+			fail("The test should not reach this line");
+		}
+		catch (ServerException ex)
+		{
+			assertNotNull(ex);
+			assertNull(ex.getMessage());
+			assertEquals(400, ex.getStatusCode());
+			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
+			assertEquals("is required", ex.getError(Contact.CONTACT_PHONE));
+		}
 	}
 	
-	public void testUploadContactAllFieldsButRequiredWithSession()
+	public void testUploadContactAllFieldsButRequiredWithSession() throws Exception
 	{
-		fail();
+		Session session = this.mController.login("shujito", "shujito");
+		assertNotNull(session);
+		assertNotNull(session.id);
+		assertNotNull(session.uid);
+		assertEquals("/users", session.path);
+		Contact contact = new Contact();
+		contact.lastname = "Izayoi";
+		contact.address = "Scarlet Devil Mansion";
+		contact.notes = "Elegant Maid";
+		try
+		{
+			this.mController.uploadContact(session, contact);
+			fail("The test should not reach this line");
+		}
+		catch (ServerException ex)
+		{
+			assertNotNull(ex);
+			assertNull(ex.getMessage());
+			assertEquals(400, ex.getStatusCode());
+			assertEquals("is required", ex.getError(Contact.CONTACT_NAME));
+			assertEquals("is required", ex.getError(Contact.CONTACT_PHONE));
+		}
 	}
 	
-	public void testUploadContactRequiredFieldsWithSession()
+	public void testUploadContactRequiredFieldsWithSession() throws Exception
 	{
-		fail();
+		Session session = this.mController.login("shujito", "shujito");
+		assertNotNull(session);
+		assertNotNull(session.id);
+		assertNotNull(session.uid);
+		assertEquals("/users", session.path);
+		Contact contact = new Contact();
+		contact.name = "Sakuya";
+		contact.phone = "492964";
+		assertNull(contact.id);
+		Contact uploaded = this.mController.uploadContact(session, contact);
+		assertEquals(contact.name, uploaded.name);
+		assertEquals(contact.phone, uploaded.phone);
+		assertNotNull(uploaded.id);
 	}
 	
 	@Override
